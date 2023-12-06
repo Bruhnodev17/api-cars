@@ -1,6 +1,6 @@
 # api-cars-dealership
 Ferramentas utilizadas: Node, Express, Insominia, UUID e Nodemon.
-* Todas as rotas são simuladas no Insominia, que simula o front-end da aplicação e liga-se ao arquivo principal (backend);
+* Todas as rotas são usadas em Js no Insominia, que simula o front-end da aplicação e liga-se ao arquivo principal (backend);
 * Executado pela porta 3333 localhost;
 
     * <b> POST</b> /: A rota vai receber: marca do carro, nome, ano, e situação( em pátio ), e cadastrar as informações;
