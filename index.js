@@ -20,16 +20,20 @@ const checkCarId = (request, response, next) => {
     next()
 }
 
+const checkMethodAndUrl = (request, response, next) =>{
+    next()
+    console.log(`Método: ${request.method} e URL: ${request.url}`)
+  }
 
-app.get('/cars', (request, response) => {
-    console.log(cars)
+
+app.get('/cars/',checkMethodAndUrl, (request, response) => {
     return response.json(cars)
 })
 
-app.post('/cars', (request, response) => {
-    const { brand, name, year } = request.body
+app.post('/cars',checkMethodAndUrl, (request, response) => {
+    const { brand, name, year, situation } = request.body
 
-    const car = { id: uuid.v4(), brand, name, year }
+    const car = { id: uuid.v4(), brand, name, year, situation }
 
     cars.push(car)
 
@@ -37,12 +41,12 @@ app.post('/cars', (request, response) => {
 })
 
 
-app.put('/cars/:id',checkCarId, (request, response) => {
-    const { brand, name, year } = request.body
+app.put('/cars/:id',checkCarId,checkMethodAndUrl, (request, response) => {
+    const { brand, name, year, situation } = request.body
     const index = request.carIndex
     const id = request.carId
 
-    const updatedCar = { id, brand, name, year }
+    const updatedCar = { id, brand, name, year, situation }
 
     cars[index] = updatedCar
 
@@ -50,13 +54,20 @@ app.put('/cars/:id',checkCarId, (request, response) => {
 })
 
 
-app.delete('/cars/:id',checkCarId, (request, response) => {
+app.delete('/cars/:id',checkCarId,checkMethodAndUrl, (request, response) => {
     const index  = request.carIndex
 
     cars.splice(index, 1)
 
     return response.status(204).json()
 })
+
+app.patch('/cars/:id', checkCarId, checkMethodAndUrl, (request, response) => {
+    const carId = request.params.id
+    const carIndex = cars.findIndex((car) => car.id === carId)
+    cars[carIndex].situation = 'Liberado do pátio! 🚀'
+    response.json(cars[carIndex])
+  })
 
 
 
